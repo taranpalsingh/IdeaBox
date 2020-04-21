@@ -1,0 +1,85 @@
+/* .errorAlert{
+  width: 90%;
+  margin: auto;
+} */
+
+form{
+  width: 80%;
+  margin: auto;
+  font-size: 1rem;
+}
+
+.sumitBtn{
+  width: 200px;
+  background-color: #E2A6A6;
+  font-weight: 700;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.password-actions{
+  display: flex;
+  justify-content: space-between;
+}
+
+.rememberMe{
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+}
+
+.password-actions p{
+  font-size: smaller;
+  cursor: pointer;
+}
+
+.authActions p{
+  font-weight: 700;
+  font-size: smaller;
+  cursor: pointer;
+}
+
+.authActions{
+  display: flex;
+  justify-content: space-between;
+}
+
+.ng-invalid.ng-touched.ng-dirty{
+  border-color: red;
+}
+
+.nameInput{
+  padding-top: 35px;
+}
+
+.input-error{
+  color: red;
+  min-height: 20px;
+}
+
+.input-error p{
+  font-size: smaller;
+  margin: 0;
+}
+
+.input-group{
+  margin: 0;
+}
+
+.form-group{
+  margin-bottom: 0;
+}
+
+@media(max-width: 800px) {
+  form{
+    width: 100%;
+    /* font-size: 0.9rem; */
+  }
+}
+
+@media(max-width: 500px){
+  form{
+    width: 100%;
+    font-size: 0.9rem;
+  }
+}

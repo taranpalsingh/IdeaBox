@@ -1,0 +1,103 @@
+<div class="auth text-center">
+
+  <!-- <div class="alert alert-danger errorAlert text-center my-3" *ngIf="error.length>0">
+    {{error}}
+  </div> -->
+  <loader *ngIf="isLoading"></loader>
+  <form [formGroup]="loginForm" (ngSubmit)="submitForm()" 
+    *ngIf="!isLoading">
+
+    <!-- Name Input -->
+    <div class="form-group text-center nameInput" *ngIf="modeSelected==='signup'">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="fa fa-user"></i>
+          </span>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="fullName"
+          placeholder="Full Name"
+          required
+        />
+      </div>
+      <div class="input-error">
+        <div *ngIf="fullName.touched && fullName.invalid">
+          <p *ngIf="fullName.errors.required">Name is a required field.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Email Input -->
+    <div class="form-group text-center">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="fa fa-user"></i>
+          </span>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="email"
+          placeholder="Email Address"
+          required
+        />
+      </div>
+      <div class="input-error">
+        <div *ngIf="email.touched && email.invalid">
+          <p *ngIf="email.errors.required">Email is a required field.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Password Input -->
+    <div class="form-group text-center">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <i class="fa fa-lock"></i>
+          </span>
+        </div>
+        <input
+          type="password"
+          class="form-control"
+          formControlName="password"
+          placeholder="Password"
+          required
+          password
+        />
+      </div>
+      <div class="input-error">
+        <div *ngIf="password.touched && password.invalid">
+          <p *ngIf="password.errors.required">Password is a required field.</p>
+          <p *ngIf="password.errors.minlength">Password must have a minimum length of 5.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="password-actions">
+      <div class="rememberMe">
+        <input type="checkbox">
+        <p class="ml-1">Remember me</p>
+      </div>
+      <p>Forgot Password?</p>
+    </div>  
+
+    <button *ngIf="modeSelected==='login'" class="btn sumitBtn mx-auto" 
+      type="submit">
+      LOGIN
+    </button>
+    <button *ngIf="modeSelected==='signup'" class="btn sumitBtn mx-auto" 
+      type="submit">
+      Get Started
+    </button>
+    <div class="authActions">
+      <p *ngIf="modeSelected==='login'" (click)="onSwitchMode('signup')">Create Account</p>
+      <p *ngIf="modeSelected==='signup'" (click)="onSwitchMode('login')">Login</p>
+      <p>Need Help?</p>
+    </div>
+  </form>
+</div>

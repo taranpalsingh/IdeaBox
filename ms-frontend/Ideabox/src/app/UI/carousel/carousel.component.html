@@ -1,0 +1,32 @@
+<div class="carousel">
+
+  <ng-container *ngFor="let slide of slides; let i=index">
+    <!-- Image -->
+    <figure class="figure">
+      <img [src]="slide.src" alt="image"
+          class="slide figure-img img-fluid"
+          *ngIf="i === currentSlide"/>
+    </figure>
+
+    <!-- Text for the selected Image -->
+    <div class="carouselText text-center" *ngIf="i == currentSlide">
+        <h3>{{slide.title}}</h3>
+        <p>{{slide.desc}}</p>
+    </div>
+  </ng-container>
+
+  <!-- Image Selector Icons -->
+  <div class="imgChangeContainer">
+    <ng-container *ngFor="let slide of slides; let i = index">
+      <i *ngIf="i != currentSlide" 
+        class="fa fa-circle-thin imgSelector" 
+        (click)="setCurrentSlide(i)">
+      </i>
+      <i *ngIf="i === currentSlide" 
+        class="fa fa-circle imgSelector" 
+        (click)="setCurrentSlide(i)">
+      </i>
+    </ng-container>
+  </div>
+
+</div>
