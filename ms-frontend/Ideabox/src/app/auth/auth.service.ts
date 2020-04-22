@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { throwError, BehaviorSubject } from 'rxjs';
 import { catchError, tap, take } from 'rxjs/operators';
 import { User } from './user.module';
+import * as config from '../../../config';
 
 export interface AuthResponseData{
   idToken: string,
@@ -22,9 +23,8 @@ export class AuthService {
 
   user = new BehaviorSubject<User>(null);
 
-  API_KEY = 'AIzaSyCtYwPQT3dm_xHiHXpXe92xZFt24IMYjGk'
-  signupUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='+this.API_KEY;
-  loginUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='+this.API_KEY;
+  signupUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key='+config.API_KEY;
+  loginUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='+config.API_KEY;
   
   constructor(
     private http: HttpClient
