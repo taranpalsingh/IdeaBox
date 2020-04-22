@@ -44,7 +44,8 @@ export class AuthComponent implements OnInit {
 
   submitForm(){
 
-    // resetting the errorMessage Alert
+    // Explicitly touching all the form controls for validation checks.
+    this.loginForm.markAllAsTouched();
 
     console.log(this.loginForm);
     

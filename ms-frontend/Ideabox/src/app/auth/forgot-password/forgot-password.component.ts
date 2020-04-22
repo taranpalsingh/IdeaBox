@@ -44,17 +44,17 @@ export class ForgotPasswordComponent implements OnInit {
 
   submitForm(){
 
-    // resetting the errorMessage Alert
-    console.log(this.form.value);
+    // Explicitly touching all the form controls for validation checks.
+    this.form.markAllAsTouched();
     
     if(!this.form.valid){
       console.log("invalid");
       return;
     }
 
-    this.error = "";
     // turn the loader on
     this.isLoading = true;
+    this.error = "";
     
     const passwordsObject = {
       verificationKey: this.verificationKey.value,

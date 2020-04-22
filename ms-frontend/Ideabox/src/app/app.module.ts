@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthLayoutComponent } from './auth/auth-layout/auth-layout.component';
 import { CarouselComponent } from './UI/carousel/carousel.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { DotsLoaderComponent } from './UI/dots-loader/dots-loader.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
     LoaderComponent,
     AuthLayoutComponent,
     CarouselComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    DotsLoaderComponent
   ],
   imports: [
     BrowserModule,

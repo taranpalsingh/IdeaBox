@@ -44,7 +44,7 @@ form{
   justify-content: space-between;
 }
 
-.ng-invalid.ng-touched.ng-dirty{
+.ng-invalid.ng-touched{
   border-color: red;
 }
 

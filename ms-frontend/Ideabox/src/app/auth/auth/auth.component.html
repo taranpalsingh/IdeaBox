@@ -3,9 +3,7 @@
   <!-- <div class="alert alert-danger errorAlert text-center my-3" *ngIf="error.length>0">
     {{error}}
   </div> -->
-  <loader *ngIf="isLoading"></loader>
-  <form [formGroup]="loginForm" (ngSubmit)="submitForm()" 
-    *ngIf="!isLoading">
+  <form [formGroup]="loginForm" (ngSubmit)="submitForm()"> 
 
     <!-- Name Input -->
     <div class="form-group text-center nameInput" *ngIf="modeSelected==='signup'">
@@ -83,16 +81,18 @@
         <input type="checkbox">
         <p class="ml-1">Remember me</p>
       </div>
-      <p>Forgot Password?</p>
+      <p routerLink="/forgotPassword">Forgot Password?</p>
     </div>  
 
     <button *ngIf="modeSelected==='login'" class="btn sumitBtn mx-auto" 
       type="submit">
-      LOGIN
+      <span *ngIf="!isLoading">LOGIN</span>
+      <dots-loader *ngIf="isLoading"></dots-loader>
     </button>
     <button *ngIf="modeSelected==='signup'" class="btn sumitBtn mx-auto" 
       type="submit">
-      Get Started
+      <span *ngIf="!isLoading">Get Started</span>
+      <dots-loader *ngIf="isLoading"></dots-loader>
     </button>
     <div class="authActions">
       <p *ngIf="modeSelected==='login'" (click)="onSwitchMode('signup')">Create Account</p>
