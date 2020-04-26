@@ -3,13 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AuthComponent } from './auth/auth/auth.component';
 import { AuthLayoutComponent } from './auth/auth-layout/auth-layout.component';
+import { AuthGuardService } from './auth/auth-guard.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 const routes: Routes = [
-  {
-    path: 'home',
-    component: HomeComponent    
-  },
+
   {
     path: 'forgotPassword',
     component: AuthLayoutComponent    
@@ -17,6 +16,16 @@ const routes: Routes = [
   {
     path: '',
     component: AuthLayoutComponent    
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
+    canActivate: [AuthGuardService]   
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuardService]   
   }
 ];
 

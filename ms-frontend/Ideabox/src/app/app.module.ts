@@ -13,6 +13,9 @@ import { AuthLayoutComponent } from './auth/auth-layout/auth-layout.component';
 import { CarouselComponent } from './UI/carousel/carousel.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { DotsLoaderComponent } from './UI/dots-loader/dots-loader.component';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { AngularFontAwesomeModule } from '../../node_modules/angular-font-awesome';
 
 @NgModule({
   declarations: [
@@ -24,14 +27,17 @@ import { DotsLoaderComponent } from './UI/dots-loader/dots-loader.component';
     AuthLayoutComponent,
     CarouselComponent,
     ForgotPasswordComponent,
-    DotsLoaderComponent
+    DotsLoaderComponent,
+    HeaderComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

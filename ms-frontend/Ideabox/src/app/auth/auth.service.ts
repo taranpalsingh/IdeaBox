@@ -4,6 +4,7 @@ import { throwError, BehaviorSubject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.module';
 import * as config from '../../../config';
+import { Router } from '@angular/router';
 
 export interface AuthResponseData{
   idToken: string,
@@ -27,10 +28,11 @@ export class AuthService {
   loginUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='+config.API_KEY;
   
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) { }
 
-  signup(credentials){
+  signup(credentials, rememberMe){
     credentials["returnSecureToken"] = true;
     console.log(credentials);
     return this.http.post<AuthResponseData>(this.signupUrl, credentials)
@@ -42,60 +44,91 @@ export class AuthService {
             resData.email,
             resData.localId,
             resData.idToken,
-            +resData.expiresIn
+            rememberMe
           );  
         }) 
       )
   }
 
-  login(credentials){
+  login(credentials, rememberMe){
+    
     credentials["returnSecureToken"] = true;
     return this.http.post<AuthResponseData>(this.loginUrl, credentials)
       .pipe(
-          catchError(this.errorHandler),
-          tap(resData => {
-            this.handleAuthentication(
-              resData.email,
-              resData.localId,
-              resData.idToken,
-              +resData.expiresIn,
-            )
-          })
+        catchError(this.errorHandler),
+        tap(resData => {
+          this.handleAuthentication(
+            resData.email,
+            resData.localId,
+            resData.idToken,
+            rememberMe
+          )
+        })
       )
   }
 
   forgotPassword(passwordsObject){
-
     // not the correct URL
     return this.http.post<AuthResponseData>(this.loginUrl, passwordsObject)
       .pipe(
-          catchError(this.errorHandler),
-          tap(resData => {
-            this.handleAuthentication(
-              resData.email,
-              resData.localId,
-              resData.idToken,
-              +resData.expiresIn,
-            )
-          })
+        catchError(this.errorHandler)
       )
   }
 
-  // Call this method after auth, to store the current user details.
-  private handleAuthentication(email: string, userId: string, token: string, expiresIn: number){
+  autoLogin(){
     
-    // calculating expiration date using the expiresIn
-    const ExpirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+    // At first, check if token is not there in the sessionStorage 
+    if(!sessionStorage.getItem('token')){
+      // If it exists in localStorage, then copy it to sessionStorage
+      if(localStorage.getItem('token')){
+        console.log("Logging In automatically");
+        sessionStorage.setItem('token', localStorage.getItem('token'));
+        
+        let token = sessionStorage.getItem('token');
+        this.user.next(JSON.parse(token));
 
+        // redirect to dashboard
+        this.router.navigateByUrl("dashboard");
+      }
+      // if not even in localStorage, then redirect to login page
+      else{
+        this.router.navigateByUrl("");
+      }
+    }
+  }
+
+  // To check if the user is logged in or not 
+  // Need to change the logic behind this
+  isLoggedIn(){
+    let token = sessionStorage.getItem('token');
+    
+    // if token exists, then return true
+    return token ? true : false;
+  }
+
+  logout(){
+    sessionStorage.clear();
+    localStorage.clear();
+    this.router.navigateByUrl("");
+  }
+
+  // Call this method after auth, to store the current user details.
+  private handleAuthentication(email: string, userId: string, token: string, rememberMe: boolean){
+    
     const user = new User(
       email,
       userId,
-      token,
-      ExpirationDate
+      token
     )
     
     // updating the current user
     this.user.next(user);
+    
+    sessionStorage.setItem('token', JSON.stringify(user));
+
+    if(rememberMe){
+      localStorage.setItem('token', JSON.stringify(user));
+    }
     // this.user.pipe(take(1)).subscribe(user => {console.log(user)});
   }
 

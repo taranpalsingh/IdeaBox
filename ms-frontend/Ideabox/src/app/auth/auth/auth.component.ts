@@ -14,6 +14,7 @@ export class AuthComponent implements OnInit {
   isLoading = false;
   error = "";
   modeSelected = 'login';
+  rememberMe: boolean = false;
   @Output() mode = new EventEmitter;
 
   // Validators for fullName Input for login 
@@ -34,6 +35,7 @@ export class AuthComponent implements OnInit {
     ])
   });
 
+
   constructor(
     private authServce: AuthService,
     private router : Router
@@ -47,7 +49,6 @@ export class AuthComponent implements OnInit {
     // Explicitly touching all the form controls for validation checks.
     this.loginForm.markAllAsTouched();
 
-    console.log(this.loginForm);
     
     if(!this.loginForm.valid){
       console.log("invalid");
@@ -65,27 +66,32 @@ export class AuthComponent implements OnInit {
     }
 
     if(this.modeSelected === "login"){
-      authObs = this.authServce.login(credentials)
+      authObs = this.authServce.login(credentials, this.rememberMe)
     }
     else if(this.modeSelected === "signup"){
       credentials["fullName"] = this.fullName.value;
-      authObs = this.authServce.signup(credentials)
+      authObs = this.authServce.signup(credentials, this.rememberMe)
     }
 
     // subscribe to login or signup requests
     authObs.subscribe(
       res => {
-        console.log(res);
+        // console.log(res);
         this.isLoading = false;
-        this.router.navigateByUrl("home");
+        this.router.navigateByUrl("dashboard");
       },
       errorMsg => {
         this.isLoading = false;
         this.error = errorMsg
-        console.log(errorMsg);
+        // console.log(errorMsg);
       }
     )
 
+  }
+
+  updateRememberMe(){
+    this.rememberMe = !this.rememberMe;
+    console.log(this.rememberMe);
   }
 
   get email(){

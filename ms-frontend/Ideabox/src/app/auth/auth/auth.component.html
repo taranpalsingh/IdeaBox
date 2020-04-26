@@ -34,6 +34,8 @@
         <div class="input-group-prepend">
           <span class="input-group-text">
             <i class="fa fa-user"></i>
+            <!-- <fa names="user"></fa> -->
+            <!-- <fa-icon [icon]="filmIcon"></fa-icon> -->
           </span>
         </div>
         <input
@@ -78,7 +80,7 @@
 
     <div class="password-actions">
       <div class="rememberMe">
-        <input type="checkbox">
+        <input type="checkbox" [value]="rememberMe" (change)="updateRememberMe()">
         <p class="ml-1">Remember me</p>
       </div>
       <p routerLink="/forgotPassword">Forgot Password?</p>
