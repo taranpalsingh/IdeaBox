@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class HeaderComponent implements OnInit {
 
   userName = "Taran";
-   
+  categories = ["Music", "SOP", "Photography", "Videography", "Gaming", "Art"];
   constructor(
     private authService : AuthService
   ) { }

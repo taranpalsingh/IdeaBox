@@ -16,6 +16,8 @@ import { DotsLoaderComponent } from './UI/dots-loader/dots-loader.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AngularFontAwesomeModule } from '../../node_modules/angular-font-awesome';
+import { AlertComponent } from './UI/alert/alert.component';
+import { PlaceholderDirective } from './UI/placeholder.directive';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { AngularFontAwesomeModule } from '../../node_modules/angular-font-awesom
     DotsLoaderComponent,
     HeaderComponent,
     DashboardComponent,
+    AlertComponent,
+    PlaceholderDirective,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +44,9 @@ import { AngularFontAwesomeModule } from '../../node_modules/angular-font-awesom
     AngularFontAwesomeModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    AlertComponent
+  ]
 })
 export class AppModule { }

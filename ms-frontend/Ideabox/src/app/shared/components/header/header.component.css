@@ -11,45 +11,36 @@ nav{
   cursor: pointer;
 }
 
-.navbar{
-  display: flex;
-  justify-content: center;
+.searchBox{
+  margin: 0 20px;
 }
 
-.inner-wrapper{
-  flex: 1;
-  display: flex;
+.searchBoxInput{
+  width: 100%;
 }
 
-.inner-wrapper.center{
-  justify-content: center;
+form{
+  margin: 0;
 }
 
-.inner-wrapper.left{
-  margin-right: auto;
-  text-align: left;
+li{
+  margin: 0 5px;
 }
 
+.header{
+  box-shadow: 1px 1px 10px rgb(0,0,0,0.2);
+}
 
 @media(max-width: 600px){
   nav{
     padding-right: 20px;
     padding-left: 20px;
   }
-
-  .navbar-toggler{
-    justify-self: right;
-  }
-
-  .inner-wrapper.center{
-    display: none;
-  }
 }
 
-@media(min-width: 600px){
+@media(max-width: 900px){
 
-  .inner-wrapper.right{
-    margin-left: auto;
-    text-align: right;
+  .searchBox{
+    display: none;
   }
 }

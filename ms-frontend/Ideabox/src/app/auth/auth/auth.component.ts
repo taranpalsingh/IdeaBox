@@ -1,8 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, ComponentFactoryResolver } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService, AuthResponseData } from '../auth.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router'; 
+import { AlertComponent } from 'src/app/UI/alert/alert.component';
+import { PlaceholderDirective } from 'src/app/UI/placeholder.directive';
 
 @Component({
   selector: 'app-auth',
@@ -12,7 +14,6 @@ import { Router } from '@angular/router';
 export class AuthComponent implements OnInit {
 
   isLoading = false;
-  error = "";
   modeSelected = 'login';
   rememberMe: boolean = false;
   @Output() mode = new EventEmitter;
@@ -35,10 +36,13 @@ export class AuthComponent implements OnInit {
     ])
   });
 
+  @ViewChild(PlaceholderDirective, {static: true}) alertHost : PlaceholderDirective; 
+  closeSub : Subscription;
 
   constructor(
     private authServce: AuthService,
-    private router : Router
+    private router : Router,
+    private componentFactoryResolver: ComponentFactoryResolver
   ) { }
 
   ngOnInit() {
@@ -49,13 +53,11 @@ export class AuthComponent implements OnInit {
     // Explicitly touching all the form controls for validation checks.
     this.loginForm.markAllAsTouched();
 
-    
     if(!this.loginForm.valid){
       console.log("invalid");
       return;
     }
 
-    this.error = "";
     // turn the loader on
     this.isLoading = true;
     let authObs: Observable<AuthResponseData>;
@@ -76,17 +78,29 @@ export class AuthComponent implements OnInit {
     // subscribe to login or signup requests
     authObs.subscribe(
       res => {
-        // console.log(res);
         this.isLoading = false;
         this.router.navigateByUrl("dashboard");
       },
       errorMsg => {
         this.isLoading = false;
-        this.error = errorMsg
-        // console.log(errorMsg);
+        this.showError(errorMsg);
       }
     )
+  }
 
+  showError(message: string){
+    const cmpFactoryresolver = this.componentFactoryResolver.resolveComponentFactory(
+      AlertComponent
+    );
+    const hostContainerRef = this.alertHost.viewContainerRef;
+    hostContainerRef.clear();
+
+    const componentRef = hostContainerRef.createComponent(cmpFactoryresolver);
+    componentRef.instance.message = message;
+    this.closeSub = componentRef.instance.close.subscribe(() => {
+      this.closeSub.unsubscribe();
+      hostContainerRef.clear();
+    })
   }
 
   updateRememberMe(){
