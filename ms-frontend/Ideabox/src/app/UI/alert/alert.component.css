@@ -23,3 +23,14 @@
 .alert-box p{
   text-align: left;
 }
+
+@media(max-width: 500px){
+  .alert-box{
+    padding: 20px;
+    top: 30vh;
+    left: 20px;
+    width: 250px;
+    min-height: 100px;
+      
+  }
+}

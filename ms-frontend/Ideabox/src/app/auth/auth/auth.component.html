@@ -1,13 +1,9 @@
-
-<ng-template appPlaceholder></ng-template>
+<!-- For pop ups -->
+<!-- <ng-template appPlaceholder></ng-template> -->
 
 <div class="auth text-center">
 
-  <!-- <div class="alert alert-danger errorAlert text-center my-3" *ngIf="error.length>0">
-    {{error}}
-  </div> -->
   <form [formGroup]="loginForm" (ngSubmit)="submitForm()"> 
-
     <!-- Name Input -->
     <div class="form-group text-center nameInput" *ngIf="modeSelected==='signup'">
       <div class="input-group">
@@ -37,12 +33,10 @@
         <div class="input-group-prepend">
           <span class="input-group-text">
             <i class="fa fa-user"></i>
-            <!-- <fa names="user"></fa> -->
-            <!-- <fa-icon [icon]="filmIcon"></fa-icon> -->
           </span>
         </div>
         <input
-          type="text"
+          type="email"
           class="form-control"
           formControlName="email"
           placeholder="Email Address"
@@ -52,6 +46,7 @@
       <div class="input-error">
         <div *ngIf="email.touched && email.invalid">
           <p *ngIf="email.errors.required">Email is a required field.</p>
+          <p *ngIf="email.errors.pattern">This is not a valid email.</p>
         </div>
       </div>
     </div>
@@ -84,21 +79,28 @@
     <div class="password-actions">
       <div class="rememberMe">
         <input type="checkbox" [value]="rememberMe" (change)="updateRememberMe()">
-        <p class="ml-1">Remember me</p>
+        <p class="ml-1">Keep me logged in</p>
       </div>
       <p routerLink="/forgotPassword">Forgot Password?</p>
     </div>  
 
-    <button *ngIf="modeSelected==='login'" class="btn sumitBtn mx-auto" 
-      type="submit">
-      <span *ngIf="!isLoading">LOGIN</span>
-      <dots-loader *ngIf="isLoading"></dots-loader>
-    </button>
-    <button *ngIf="modeSelected==='signup'" class="btn sumitBtn mx-auto" 
-      type="submit">
-      <span *ngIf="!isLoading">Get Started</span>
-      <dots-loader *ngIf="isLoading"></dots-loader>
-    </button>
+    <div class="submitDiv">
+      <div class="error">
+        <p>{{errorMessage}}</p>
+        <!-- <p>Password is incorrect</p> -->
+      </div>
+      <button *ngIf="modeSelected==='login'" class="btn sumitBtn mx-auto" 
+        type="submit">
+        <span *ngIf="!isLoading">LOGIN</span>
+        <dots-loader *ngIf="isLoading"></dots-loader>
+      </button>
+      <button *ngIf="modeSelected==='signup'" class="btn sumitBtn mx-auto" 
+        type="submit">
+        <span *ngIf="!isLoading">Get Started</span>
+        <dots-loader *ngIf="isLoading"></dots-loader>
+      </button>
+    </div>
+
     <div class="authActions">
       <p *ngIf="modeSelected==='login'" (click)="onSwitchMode('signup')">Create Account</p>
       <p *ngIf="modeSelected==='signup'" (click)="onSwitchMode('login')">Login</p>

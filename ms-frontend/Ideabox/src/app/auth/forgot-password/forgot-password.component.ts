@@ -24,8 +24,10 @@ export class ForgotPasswordComponent implements OnInit {
     ]),
     confirmPassword: new FormControl("",[
       Validators.required,
-      // confirmPasswordValidator('newPassword')
+      confirmPasswordValidator('newPassword')
     ])
+  },{
+    updateOn: 'submit'
   });
 
 
@@ -37,9 +39,9 @@ export class ForgotPasswordComponent implements OnInit {
   ngOnInit() {
 
     // To compare the confirmPassword field whenever the value of newPassword is changed.
-    this.form.controls.newPassword.valueChanges.subscribe(() => {
-      this.form.controls.confirmPassword.updateValueAndValidity()
-    })
+    // this.form.controls.newPassword.valueChanges.subscribe(() => {
+    //   this.form.controls.confirmPassword.updateValueAndValidity()
+    // })
   }
 
   submitForm(){

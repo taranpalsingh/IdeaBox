@@ -16,6 +16,7 @@ export class AuthComponent implements OnInit {
   isLoading = false;
   modeSelected = 'login';
   rememberMe: boolean = false;
+  errorMessage: String;
   @Output() mode = new EventEmitter;
 
   // Validators for fullName Input for login 
@@ -23,17 +24,29 @@ export class AuthComponent implements OnInit {
   // Validators for fullName Input for Signup 
   fullNameSignupValidators = [ Validators.required]
 
+
+  emailLoginValidators = [ Validators.required, 
+    Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')  //validation for email's pattern
+  ]
+  emailSignupValidators = [ Validators.required, 
+    Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')  //validation for email's pattern
+  ]
+
+  passwordLoginValidators = [ Validators.required]
+  passwordSignupValidators = [ Validators.required, Validators.minLength(5)]
+
   loginForm = new FormGroup({
     fullName: new FormControl("",
         this.modeSelected==="signup" ? this.fullNameSignupValidators : this.fullNameLoginValidators 
     ),
-    email: new FormControl("",[
-      Validators.required
-    ]),
-    password: new FormControl("",[
-      Validators.required,
-      Validators.minLength(5)
-    ])
+    email: new FormControl("",
+      this.modeSelected==="signup" ? this.emailSignupValidators : this.emailLoginValidators 
+    ),
+    password: new FormControl("",
+      this.modeSelected==="signup" ? this.passwordSignupValidators : this.passwordLoginValidators 
+    )
+  },{
+    updateOn: "submit" 
   });
 
   @ViewChild(PlaceholderDirective, {static: true}) alertHost : PlaceholderDirective; 
@@ -52,9 +65,9 @@ export class AuthComponent implements OnInit {
 
     // Explicitly touching all the form controls for validation checks.
     this.loginForm.markAllAsTouched();
-
+    
     if(!this.loginForm.valid){
-      console.log("invalid");
+      // console.log("invalid");
       return;
     }
 
@@ -83,24 +96,9 @@ export class AuthComponent implements OnInit {
       },
       errorMsg => {
         this.isLoading = false;
-        this.showError(errorMsg);
+        this.errorMessage = errorMsg;
       }
     )
-  }
-
-  showError(message: string){
-    const cmpFactoryresolver = this.componentFactoryResolver.resolveComponentFactory(
-      AlertComponent
-    );
-    const hostContainerRef = this.alertHost.viewContainerRef;
-    hostContainerRef.clear();
-
-    const componentRef = hostContainerRef.createComponent(cmpFactoryresolver);
-    componentRef.instance.message = message;
-    this.closeSub = componentRef.instance.close.subscribe(() => {
-      this.closeSub.unsubscribe();
-      hostContainerRef.clear();
-    })
   }
 
   updateRememberMe(){
@@ -121,5 +119,41 @@ export class AuthComponent implements OnInit {
   onSwitchMode(newMode) {   
     this.mode.emit(newMode);
     this.modeSelected = newMode;
+    if(newMode === 'login'){
+      this.password.clearValidators();
+      this.password.setValidators(this.passwordLoginValidators);
+      
+      this.email.clearValidators();
+      this.email.setValidators(this.emailLoginValidators);
+
+      this.fullName.clearValidators();
+      this.fullName.setValidators(this.fullNameLoginValidators);
+    }
+    else{
+      this.password.clearValidators();
+      this.password.setValidators(this.passwordSignupValidators);
+      
+      this.email.clearValidators();
+      this.email.setValidators(this.emailSignupValidators);
+
+      this.fullName.clearValidators();
+      this.fullName.setValidators(this.fullNameSignupValidators);
+    }
+
   }
+
+  // showError(message: string){
+  //   const cmpFactoryresolver = this.componentFactoryResolver.resolveComponentFactory(
+  //     AlertComponent
+  //   );
+  //   const hostContainerRef = this.alertHost.viewContainerRef;
+  //   hostContainerRef.clear();
+
+  //   const componentRef = hostContainerRef.createComponent(cmpFactoryresolver);
+  //   componentRef.instance.message = message;
+  //   this.closeSub = componentRef.instance.close.subscribe(() => {
+  //     this.closeSub.unsubscribe();
+  //     hostContainerRef.clear();
+  //   })
+  // }
 }
